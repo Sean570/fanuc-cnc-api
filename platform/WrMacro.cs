@@ -2,12 +2,12 @@ namespace l99.fanuc;
 
 public partial class Platform
 {
-    public async Task<dynamic> WrMacroAsync(short number, double value, short decimalPlaces = 0, short length = 10)
+    public async Task<dynamic> WrMacroAsync(short number, double value, short decimalPlaces = 0, short length = 10, CancellationToken cancellationToken = default)
     {
-        return await Task.FromResult(WrMacro(number, value, decimalPlaces, length));
+        return await Task.FromResult(WrMacro(number, value, decimalPlaces, length, cancellationToken));
     }
 
-    public dynamic WrMacro(short number, double value, short decimalPlaces = 0, short length = 10)
+    public dynamic WrMacro(short number, double value, short decimalPlaces = 0, short length = 10, CancellationToken cancellationToken = default)
     {
         double scaledValue = Math.Round(value * Math.Pow(10, decimalPlaces));
         int macroValue = (int)Math.Clamp(scaledValue, int.MinValue, int.MaxValue);
@@ -15,7 +15,7 @@ public partial class Platform
         var ndr = _nativeDispatch(() =>
         {
             return (Focas.focas_ret)Focas.cnc_wrmacro(_handle, number, length, macroValue, decimalPlaces);
-        });
+        }, cancellationToken: cancellationToken);
 
         var nr = new
         {

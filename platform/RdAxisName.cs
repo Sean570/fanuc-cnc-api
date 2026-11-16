@@ -2,12 +2,12 @@ namespace l99.fanuc;
 
 public partial class Platform
 {
-    public async Task<dynamic> RdAxisNameAsync(short data_num = 8)
+    public async Task<dynamic> RdAxisNameAsync(short data_num = 8, CancellationToken cancellationToken = default)
     {
-        return await Task.FromResult(RdAxisName(data_num));
+        return await Task.FromResult(RdAxisName(data_num, cancellationToken));
     }
 
-    public dynamic RdAxisName(short data_num = 8)
+    public dynamic RdAxisName(short data_num = 8, CancellationToken cancellationToken = default)
     {
         var data_num_out = data_num;
         var axisname = new Focas.ODBAXISNAME();
@@ -15,7 +15,7 @@ public partial class Platform
         var ndr = _nativeDispatch(() =>
         {
             return (Focas.focas_ret) Focas.cnc_rdaxisname(_handle, ref data_num_out, axisname);
-        });
+        }, cancellationToken: cancellationToken);
 
         var nr = new
         {

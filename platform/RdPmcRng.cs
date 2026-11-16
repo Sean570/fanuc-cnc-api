@@ -13,13 +13,13 @@ public partial class Platform
     }
 
     public async Task<dynamic> RdPmcRngAsync(short adr_type, short data_type, ushort s_number, ushort e_number,
-        ushort length, int IODBPMC_type)
+        ushort length, int IODBPMC_type, CancellationToken cancellationToken = default)
     {
-        return await Task.FromResult(RdPmcRng(adr_type, data_type, s_number, e_number, length, IODBPMC_type));
+        return await Task.FromResult(RdPmcRng(adr_type, data_type, s_number, e_number, length, IODBPMC_type, cancellationToken));
     }
 
     public dynamic RdPmcRng(short adr_type, short data_type, ushort s_number, ushort e_number, ushort length,
-        int IODBPMC_type)
+        int IODBPMC_type, CancellationToken cancellationToken = default)
     {
         dynamic buf = new object();
 
@@ -34,13 +34,21 @@ public partial class Platform
             case 2:
                 buf = new Focas.IODBPMC2();
                 break;
+            case 4:
+                buf = new Focas.IODBPMC4();
+                break;
+            case 5:
+                buf = new Focas.IODBPMC5();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(IODBPMC_type));
         }
 
         var ndr = _nativeDispatch(() =>
         {
             return (Focas.focas_ret) Focas.pmc_rdpmcrng(_handle, adr_type, data_type, s_number, e_number, length,
                 buf);
-        });
+        }, cancellationToken: cancellationToken);
 
         var nr = new
         {

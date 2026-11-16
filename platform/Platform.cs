@@ -65,7 +65,7 @@ public partial class Platform
     
     private readonly string _docBasePath = "https://docs.ladder99.com/drivers/fanuc-driver/focas-api";
 
-    private NativeDispatchReturn _nativeDispatch(Func<Focas.focas_ret> func, bool throwOnSocketError = true)
+    private NativeDispatchReturn _nativeDispatch(Func<Focas.focas_ret> func, bool throwOnSocketError = true, CancellationToken cancellationToken = default)
     {
         Focas.focas_ret innerRc = Focas.focas_ret.EW_OK;
         long innerElapsed = 0;
@@ -79,7 +79,7 @@ public partial class Platform
             var rc = func();
             sw.Stop();
             return (sw.ElapsedMilliseconds, rc);
-        }).Result;
+        }, cancellationToken).Result;
         outerSw.Stop();
         
         //Console.WriteLine($"elapsed={innerElapsed}, waiting={outerSw.ElapsedMilliseconds - innerElapsed}");

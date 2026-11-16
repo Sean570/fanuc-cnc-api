@@ -2,16 +2,16 @@ namespace l99.fanuc;
 
 public partial class Platform
 {
-    public async Task<dynamic> StatInfoAsync()
+    public async Task<dynamic> StatInfoAsync(CancellationToken cancellationToken = default)
     {
-        return await Task.FromResult(StatInfo());
+        return await Task.FromResult(StatInfo(cancellationToken));
     }
 
-    public dynamic StatInfo()
+    public dynamic StatInfo(CancellationToken cancellationToken = default)
     {
         var statinfo = new Focas.ODBST();
 
-        var ndr = _nativeDispatch(() => { return (Focas.focas_ret) Focas.cnc_statinfo(_handle, statinfo); });
+        var ndr = _nativeDispatch(() => { return (Focas.focas_ret) Focas.cnc_statinfo(_handle, statinfo); }, cancellationToken: cancellationToken);
 
         var nr = new
         {

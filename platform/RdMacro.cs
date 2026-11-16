@@ -2,19 +2,19 @@ namespace l99.fanuc;
 
 public partial class Platform
 {
-    public async Task<dynamic> RdMacroAsync(short number = 1, short length = 10)
+    public async Task<dynamic> RdMacroAsync(short number = 1, short length = 10, CancellationToken cancellationToken = default)
     {
-        return await Task.FromResult(RdMacro(number, length));
+        return await Task.FromResult(RdMacro(number, length, cancellationToken));
     }
 
-    public dynamic RdMacro(short number = 1, short length = 10)
+    public dynamic RdMacro(short number = 1, short length = 10, CancellationToken cancellationToken = default)
     {
         var macro = new Focas.ODBM();
 
         var ndr = _nativeDispatch(() =>
         {
             return (Focas.focas_ret) Focas.cnc_rdmacro(_handle, number, length, macro);
-        });
+        }, cancellationToken: cancellationToken);
 
         var nr = new
         {

@@ -2,12 +2,12 @@ namespace l99.fanuc;
 
 public partial class Platform
 {
-    public async Task<dynamic> RdAlmMsgAsync(short type = 0, short num = 10)
+    public async Task<dynamic> RdAlmMsgAsync(short type = 0, short num = 10, CancellationToken cancellationToken = default)
     {
-        return await Task.FromResult(RdAlmMsg(type, num));
+        return await Task.FromResult(RdAlmMsg(type, num, cancellationToken));
     }
 
-    public dynamic RdAlmMsg(short type = 0, short num = 10)
+    public dynamic RdAlmMsg(short type = 0, short num = 10, CancellationToken cancellationToken = default)
     {
         var num_out = num;
         var almmsg = new Focas.ODBALMMSG();
@@ -15,7 +15,7 @@ public partial class Platform
         var ndr = _nativeDispatch(() =>
         {
             return (Focas.focas_ret) Focas.cnc_rdalmmsg(_handle, type, ref num_out, almmsg);
-        });
+        }, cancellationToken: cancellationToken);
 
         var nr = new
         {

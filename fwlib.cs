@@ -7174,6 +7174,36 @@ namespace l99.fanuc
             public int[] ldata;
         } /* In case that the number of data is 5 */
 
+        [StructLayout(LayoutKind.Explicit)]
+        public class IODBPMC4
+        {
+            [FieldOffset(0)]
+            public short type_a;
+            [FieldOffset(2)]
+            public short type_d;
+            [FieldOffset(4)]
+            public short datano_s;
+            [FieldOffset(6)]
+            public short datano_e;
+            [FieldOffset(8), MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
+            public float[] fdata;
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        public class IODBPMC5
+        {
+            [FieldOffset(0)]
+            public short type_a;
+            [FieldOffset(2)]
+            public short type_d;
+            [FieldOffset(4)]
+            public short datano_s;
+            [FieldOffset(6)]
+            public short datano_e;
+            [FieldOffset(8), MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
+            public double[] dfdata;
+        }
+
         /* pmc_rdpmcinfo:read informations of PMC data */
         [StructLayout(LayoutKind.Sequential, Pack = 4)]
         public class ODBPMCINF_info

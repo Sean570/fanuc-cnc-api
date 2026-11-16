@@ -2,12 +2,12 @@ namespace l99.fanuc;
 
 public partial class Platform
 {
-    public async Task<dynamic> RdDynamic2Async(short axis = 1, short length = 44, int ODBDY2_type = 2)
+    public async Task<dynamic> RdDynamic2Async(short axis = 1, short length = 44, int ODBDY2_type = 2, CancellationToken cancellationToken = default)
     {
-        return await Task.FromResult(RdDynamic2(axis, length, ODBDY2_type));
+        return await Task.FromResult(RdDynamic2(axis, length, ODBDY2_type, cancellationToken));
     }
 
-    public dynamic RdDynamic2(short axis = 1, short length = 44, int ODBDY2_type = 2)
+    public dynamic RdDynamic2(short axis = 1, short length = 44, int ODBDY2_type = 2, CancellationToken cancellationToken = default)
     {
         dynamic rddynamic = new object();
 
@@ -26,7 +26,7 @@ public partial class Platform
         var ndr = _nativeDispatch(() =>
         {
             return (Focas.focas_ret) Focas.cnc_rddynamic2(_handle, axis, length, rddynamic);
-        });
+        }, cancellationToken: cancellationToken);
 
         var nr = new
         {
