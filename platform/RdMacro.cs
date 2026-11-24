@@ -31,6 +31,6 @@ public partial class Platform
 
         _logger.Trace($"Platform invocation result:\n{JObject.FromObject(nr)}");
 
-        return nr;
+        return ToPublicResponse(nr);
     }
 }

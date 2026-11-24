@@ -8,6 +8,8 @@ namespace l99.fanuc;
 
 public partial class Platform
 {
+    private static JObject ToPublicResponse(object value) => JObject.FromObject(value);
+
     /*
     Once the library handle number is acquired, it must be held until the application program terminates, 
     because it is necessary to pass the number as an argument to each CNC/PMC Data window library function.

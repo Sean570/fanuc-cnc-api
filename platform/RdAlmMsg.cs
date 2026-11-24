@@ -31,7 +31,7 @@ public partial class Platform
 
         _logger.Trace($"Platform invocation result:\n{JObject.FromObject(nr)}");
 
-        return nr;
+        return ToPublicResponse(nr);
     }
 
     public async Task<dynamic> RdAlmMsgAllAsync(short count = 10, short maxType = 20)
